@@ -28,6 +28,15 @@ Ne JAMAIS écrire le code de production avant le test.
 Patient, Médecin, Consultation, Rendez-vous, Prescription, Ordonnance,
 Facture, Laboratoire, Pharmacie
 
+## Documentation — OBLIGATOIRE sur tout code écrit
+Documenter systématiquement :
+- **Classes** : PHPDoc expliquant le rôle, le pourquoi, et un exemple d'usage concret
+- **Méthodes non triviales** : une ligne sur l'intention (pas sur ce que fait le code)
+- **Fichiers de test** : en-tête décrivant la fixture et son équivalent réel dans les modules,
+  sections `// ───` pour regrouper les cas, commentaire dans chaque test expliquant
+  quelle règle métier il protège
+- Ne pas documenter ce que le nom de la méthode dit déjà — documenter le POURQUOI
+
 ## Conventions
 - Une classe = une responsabilité
 - Préférer plusieurs petites classes
