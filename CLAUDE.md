@@ -1,39 +1,35 @@
 # Application Médicale — Contexte pour Claude Code
 
 ## Philosophie
+- **nwidart/laravel-modules** installé — utiliser `php artisan module:make {Nom}` pour créer un module
 - Exploiter Laravel au maximum — ne pas réinventer ce qu'il fournit
 - Rester agnostique là où ça protège la testabilité : Domain + Application sans Eloquent direct
-- Modules **indépendants** : chaque module se charge lui-même (routes, migrations, bindings)
+- Modules **indépendants** : chaque module se charge lui-même via `module.json` + `PatientsServiceProvider`
 
-## Structure des modules
-Chaque module vit dans `Modules/{Nom}/` à la racine et s'auto-enregistre via son ServiceProvider.
+## Structure standard d'un module (nwidart v13)
+```
+Modules/{Nom}/
+├── app/                              ← tout le code PHP du module
+│   ├── Domain/                       ← agnostique (ValueObjects, AggregateRoot, Events, interface Repository)
+│   ├── Application/                  ← agnostique (Commands, Handlers)
+│   ├── Http/
+│   │   ├── Controllers/              ← standard Laravel
+│   │   └── Requests/                 ← FormRequests
+│   ├── Models/                       ← Eloquent (privé au module)
+│   ├── Providers/
+│   │   └── {Nom}ServiceProvider.php  ← charge routes + bindings
+│   └── Repositories/                 ← implémentations concrètes
+├── database/
+│   └── migrations/                   ← auto-découvertes par nwidart
+├── routes/
+│   └── web.php                       ← routes du module
+├── composer.json                     ← PSR-4 : "Modules\{Nom}\" → "app/"
+└── module.json                       ← descripteur nwidart (provider, alias…)
+```
 
-```
-Modules/
-└── Patients/
-    ├── Providers/
-    │   └── PatientsServiceProvider.php   ← charge routes, migrations, bindings
-    ├── Domain/
-    │   ├── Patient.php                   ← AggregateRoot
-    │   ├── PatientId.php, Nom.php, ...   ← ValueObjects
-    │   ├── PatientRepository.php         ← interface (contrat)
-    │   ├── PatientInscrit.php            ← DomainEvent
-    │   └── PatientIntrouvable.php        ← DomainException
-    ├── Application/
-    │   ├── InscrirePatientCommand.php    ← DTO scalaire
-    │   └── InscrirePatientHandler.php    ← orchestrateur
-    ├── Infrastructure/
-    │   ├── Persistence/
-    │   │   ├── PatientModel.php          ← Eloquent model (privé au module)
-    │   │   └── EloquentPatientRepository.php ← implémente PatientRepository
-    │   └── database/migrations/
-    └── Presentation/
-        ├── Http/
-        │   ├── Controllers/PatientController.php
-        │   └── Requests/InscrirePatientRequest.php
-        ├── Livewire/                     ← composants Livewire du module
-        └── routes/web.php               ← routes propres au module
-```
+**Autoloading :** chaque `Modules/{Nom}/composer.json` est fusionné par `wikimedia/composer-merge-plugin`.
+**Activation :** `modules_statuses.json` à la racine — `php artisan module:enable {Nom}`.
+**Provider :** chargé automatiquement par nwidart via `module.json`, pas dans `bootstrap/providers.php`.
 
 ## Ce qu'on utilise dans chaque couche
 
