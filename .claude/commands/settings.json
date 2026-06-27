@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(vendor/bin/pest*)",
+      "Bash(vendor/bin/phpstan*)",
+      "Bash(vendor/bin/pint*)",
+      "Bash(php artisan*)",
+      "Bash(git status)",
+      "Bash(git diff*)"
+    ],
+    "deny": [
+      "Bash(git push*)",
+      "Bash(php artisan migrate:fresh*)"
+    ]
+  }
+}
