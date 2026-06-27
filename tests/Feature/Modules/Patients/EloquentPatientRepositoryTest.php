@@ -8,7 +8,7 @@ use Modules\Patients\Domain\Nom;
 use Modules\Patients\Domain\Patient;
 use Modules\Patients\Domain\PatientId;
 use Modules\Patients\Domain\PatientIntrouvable;
-use Modules\Patients\Infrastructure\Persistence\EloquentPatientRepository;
+use Modules\Patients\Repositories\EloquentPatientRepository;
 
 uses(RefreshDatabase::class);
 

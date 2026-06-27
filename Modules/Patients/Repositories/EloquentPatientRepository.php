@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Patients\Infrastructure\Persistence;
+namespace Modules\Patients\Repositories;
 
 use Modules\Patients\Domain\DateDeNaissance;
 use Modules\Patients\Domain\Nom;
@@ -10,6 +10,7 @@ use Modules\Patients\Domain\Patient;
 use Modules\Patients\Domain\PatientId;
 use Modules\Patients\Domain\PatientIntrouvable;
 use Modules\Patients\Domain\PatientRepository;
+use Modules\Patients\Models\PatientModel;
 
 /**
  * Implémentation Eloquent du contrat PatientRepository.

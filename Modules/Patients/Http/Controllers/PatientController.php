@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Modules\Patients\Presentation\Http\Controllers;
+namespace Modules\Patients\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Modules\Patients\Application\InscrirePatientCommand;
 use Modules\Patients\Application\InscrirePatientHandler;
-use Modules\Patients\Presentation\Http\Requests\InscrirePatientRequest;
+use Modules\Patients\Http\Requests\InscrirePatientRequest;
 
 /**
  * Expose les actions HTTP du module Patients.
