@@ -8,8 +8,8 @@ use Rector\Set\ValueObject\SetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/app',
-        __DIR__ . '/tests',
+        __DIR__.'/app',
+        __DIR__.'/tests',
     ])
     ->withSets([
         LevelSetList::UP_TO_PHP_83,
@@ -19,5 +19,5 @@ return RectorConfig::configure()
         SetList::TYPE_DECLARATION,
     ])
     ->withSkip([
-        __DIR__ . '/app/Http/Controllers',
+        __DIR__.'/app/Http/Controllers',
     ]);
