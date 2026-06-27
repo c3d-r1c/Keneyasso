@@ -1,0 +1,12 @@
+{
+    "name": "Patients",
+    "alias": "patients",
+    "description": "Gestion des patients — inscription, dossier médical, historique.",
+    "keywords": ["patients", "médecin", "dossier"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Patients\\Providers\\PatientsServiceProvider"
+    ],
+    "aliases": {},
+    "files": []
+}

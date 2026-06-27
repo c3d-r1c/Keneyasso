@@ -1,0 +1,15 @@
+{
+    "name": "keneyasso/patients",
+    "description": "Module Patients",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Patients\\": "app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    }
+}

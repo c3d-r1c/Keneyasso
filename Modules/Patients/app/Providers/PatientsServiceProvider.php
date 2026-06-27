@@ -11,13 +11,14 @@ use Modules\Patients\Repositories\EloquentPatientRepository;
 /**
  * Point d'entrée du module Patients.
  *
- * Ce ServiceProvider est le seul fichier à enregistrer dans bootstrap/providers.php.
- * Il charge de manière autonome :
- * - Les migrations du module (database/migrations/)
+ * Enregistré automatiquement par nwidart via module.json — ne pas ajouter
+ * dans bootstrap/providers.php. Pour désactiver le module, modifier
+ * modules_statuses.json ou utiliser `php artisan module:disable Patients`.
+ *
+ * Charge de manière autonome :
  * - Les routes du module (routes/web.php)
  * - Le binding PatientRepository → EloquentPatientRepository
- *
- * Pour désactiver le module entièrement : retirer ce provider de bootstrap/providers.php.
+ * Les migrations sont auto-découvertes par nwidart (auto-discover.migrations = true).
  */
 final class PatientsServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,6 @@ final class PatientsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 }
