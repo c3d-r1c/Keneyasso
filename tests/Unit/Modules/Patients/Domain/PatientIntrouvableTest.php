@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Core\Domain\DomainException;
-use App\Modules\Patients\Domain\PatientId;
-use App\Modules\Patients\Domain\PatientIntrouvable;
+use Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientIntrouvable;
 
 /**
  * PatientIntrouvable est levée quand un findById() ne trouve aucun résultat.

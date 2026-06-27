@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Patients\Application;
+namespace Modules\Patients\Application;
 
 /**
  * DTO scalaire transportant l'intention d'inscrire un patient.

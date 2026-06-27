@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Patients\Domain;
+namespace Modules\Patients\Domain;
 
 use App\Core\Domain\AggregateRoot;
 
@@ -14,11 +14,9 @@ use App\Core\Domain\AggregateRoot;
  * Toute action métier passe par une méthode nommée d'après l'intention
  * (inscrire, mettreAJour, archiver…) qui enregistre l'événement correspondant.
  *
- * Cycle de vie standard :
- *   $id      = $repository->nextId();
- *   $patient = Patient::inscrire($id, $nom, $dateDeNaissance);
- *   $repository->save($patient);
- *   // L'Infrastructure dispatche ensuite pullDomainEvents()
+ * Deux fabriques statiques :
+ *   inscrire()     → nouveau patient, émet PatientInscrit
+ *   reconstituer() → chargement depuis la persistence, aucun événement
  */
 final class Patient extends AggregateRoot
 {
@@ -41,6 +39,18 @@ final class Patient extends AggregateRoot
         $patient->record(new PatientInscrit($id->value(), (string) $nom));
 
         return $patient;
+    }
+
+    /**
+     * Recrée un Patient depuis la persistence sans réémettre d'événements.
+     * Utilisé exclusivement par EloquentPatientRepository::toDomain().
+     */
+    public static function reconstituer(
+        PatientId $id,
+        Nom $nom,
+        DateDeNaissance $dateDeNaissance,
+    ): self {
+        return new self($id, $nom, $dateDeNaissance);
     }
 
     public function id(): PatientId

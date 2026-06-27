@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Domain\EntityId;
-use App\Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientId;
 
 /**
  * PatientId est le type d'identifiant propre au module Patients.

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Patients\Application;
+namespace Modules\Patients\Application;
 
-use App\Modules\Patients\Domain\DateDeNaissance;
-use App\Modules\Patients\Domain\Nom;
-use App\Modules\Patients\Domain\Patient;
-use App\Modules\Patients\Domain\PatientId;
-use App\Modules\Patients\Domain\PatientRepository;
+use Modules\Patients\Domain\DateDeNaissance;
+use Modules\Patients\Domain\Nom;
+use Modules\Patients\Domain\Patient;
+use Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientRepository;
 
 /**
  * Orchestre l'inscription d'un nouveau patient.

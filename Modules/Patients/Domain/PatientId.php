@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Patients\Domain;
+namespace Modules\Patients\Domain;
 
 use App\Core\Domain\EntityId;
 

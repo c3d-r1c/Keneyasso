@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Modules\Patients\Application\InscrirePatientCommand;
-use App\Modules\Patients\Application\InscrirePatientHandler;
-use App\Modules\Patients\Domain\DateDeNaissance;
-use App\Modules\Patients\Domain\Nom;
-use App\Modules\Patients\Domain\Patient;
-use App\Modules\Patients\Domain\PatientId;
-use App\Modules\Patients\Domain\PatientInscrit;
-use App\Modules\Patients\Domain\PatientIntrouvable;
-use App\Modules\Patients\Domain\PatientRepository;
+use Modules\Patients\Application\InscrirePatientCommand;
+use Modules\Patients\Application\InscrirePatientHandler;
+use Modules\Patients\Domain\DateDeNaissance;
+use Modules\Patients\Domain\Nom;
+use Modules\Patients\Domain\Patient;
+use Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientInscrit;
+use Modules\Patients\Domain\PatientIntrouvable;
+use Modules\Patients\Domain\PatientRepository;
 
 /**
  * InscrirePatientHandler orchestre l'inscription d'un nouveau patient.

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Modules\Patients\Domain\DateDeNaissance;
-use App\Modules\Patients\Domain\Nom;
-use App\Modules\Patients\Domain\Patient;
-use App\Modules\Patients\Domain\PatientId;
-use App\Modules\Patients\Domain\PatientIntrouvable;
-use App\Modules\Patients\Domain\PatientRepository;
+use Modules\Patients\Domain\DateDeNaissance;
+use Modules\Patients\Domain\Nom;
+use Modules\Patients\Domain\Patient;
+use Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientIntrouvable;
+use Modules\Patients\Domain\PatientRepository;
 
 /**
  * PatientRepository est le contrat que l'Infrastructure doit honorer.

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use App\Core\Domain\AggregateRoot;
-use App\Modules\Patients\Domain\DateDeNaissance;
-use App\Modules\Patients\Domain\Nom;
-use App\Modules\Patients\Domain\Patient;
-use App\Modules\Patients\Domain\PatientId;
-use App\Modules\Patients\Domain\PatientInscrit;
+use Modules\Patients\Domain\DateDeNaissance;
+use Modules\Patients\Domain\Nom;
+use Modules\Patients\Domain\Patient;
+use Modules\Patients\Domain\PatientId;
+use Modules\Patients\Domain\PatientInscrit;
 
 /**
  * Patient est l'AggregateRoot central du module.
@@ -83,4 +83,30 @@ it('l\'événement PatientInscrit contient le bon identifiant', function (): voi
     $event = $patient->pullDomainEvents()[0];
 
     expect($event->patientId)->toBe($id->value());
+});
+
+// ─── Reconstitution depuis la persistence ─────────────────────────────────────
+
+it('reconstituer() recrée un Patient sans émettre d\'événement', function (): void {
+    // Quand l'Infrastructure recharge un patient depuis la BDD, on ne doit pas
+    // réémettre PatientInscrit — l'événement a déjà eu lieu lors de l'inscription.
+    $patient = Patient::reconstituer(
+        PatientId::fromString('550e8400-e29b-41d4-a716-446655440000'),
+        new Nom('Moussa', 'Traoré'),
+        DateDeNaissance::fromString('1990-05-15'),
+    );
+
+    expect($patient->pullDomainEvents())->toBeEmpty();
+});
+
+it('reconstituer() expose les mêmes données que inscrire()', function (): void {
+    $id = PatientId::fromString('550e8400-e29b-41d4-a716-446655440000');
+    $nom = new Nom('Moussa', 'Traoré');
+    $ddn = DateDeNaissance::fromString('1990-05-15');
+
+    $patient = Patient::reconstituer($id, $nom, $ddn);
+
+    expect($patient->id()->equals($id))->toBeTrue()
+        ->and($patient->nom()->equals($nom))->toBeTrue()
+        ->and($patient->dateDeNaissance()->equals($ddn))->toBeTrue();
 });

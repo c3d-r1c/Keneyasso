@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Domain\ValueObject;
-use App\Modules\Patients\Domain\Nom;
+use Modules\Patients\Domain\Nom;
 
 /**
  * Nom est un ValueObject qui encapsule prénom + nom de famille du patient.

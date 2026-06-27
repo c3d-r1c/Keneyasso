@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Domain\DomainEvent;
-use App\Modules\Patients\Domain\PatientInscrit;
+use Modules\Patients\Domain\PatientInscrit;
 
 /**
  * PatientInscrit est émis quand un patient est créé dans le système.

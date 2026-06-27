@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Modules\Patients\Domain\DateDeNaissance;
+use Modules\Patients\Domain\DateDeNaissance;
 
 /**
  * DateDeNaissance encapsule la date de naissance du patient
