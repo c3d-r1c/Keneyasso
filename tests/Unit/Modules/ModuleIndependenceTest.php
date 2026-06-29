@@ -77,7 +77,7 @@ it('le Domain Patients n\'importe rien du module Docteurs', function (): void {
 it('l\'Application Patients n\'importe rien du module Docteurs', function (): void {
     $violations = [];
 
-    foreach (phpFiles(base_path('Modules/Patients/app/Application')) as $file) {
+    foreach (phpFiles(base_path('Modules/Patients/app/Actions')) as $file) {
         foreach (useStatements($file) as $use) {
             if (str_contains($use, 'Modules\\Docteurs')) {
                 $violations[] = basename($file).': '.$use;
@@ -105,7 +105,7 @@ it('le Domain Docteurs n\'importe rien du module Patients', function (): void {
 it('l\'Application Docteurs n\'importe rien du module Patients', function (): void {
     $violations = [];
 
-    foreach (phpFiles(base_path('Modules/Docteurs/app/Application')) as $file) {
+    foreach (phpFiles(base_path('Modules/Docteurs/app/Actions')) as $file) {
         foreach (useStatements($file) as $use) {
             if (str_contains($use, 'Modules\\Patients')) {
                 $violations[] = basename($file).': '.$use;
@@ -138,7 +138,7 @@ it('le Domain Patients n\'utilise pas Eloquent', function (): void {
 it('l\'Application Patients n\'utilise pas Eloquent', function (): void {
     $violations = [];
 
-    foreach (phpFiles(base_path('Modules/Patients/app/Application')) as $file) {
+    foreach (phpFiles(base_path('Modules/Patients/app/Actions')) as $file) {
         foreach (useStatements($file) as $use) {
             if (str_contains($use, 'Illuminate\\Database')) {
                 $violations[] = basename($file).': '.$use;
@@ -166,7 +166,7 @@ it('le Domain Docteurs n\'utilise pas Eloquent', function (): void {
 it('l\'Application Docteurs n\'utilise pas Eloquent', function (): void {
     $violations = [];
 
-    foreach (phpFiles(base_path('Modules/Docteurs/app/Application')) as $file) {
+    foreach (phpFiles(base_path('Modules/Docteurs/app/Actions')) as $file) {
         foreach (useStatements($file) as $use) {
             if (str_contains($use, 'Illuminate\\Database')) {
                 $violations[] = basename($file).': '.$use;
@@ -251,14 +251,16 @@ it('Docteurs a son propre module.json avec son provider déclaré', function ():
 
 // ─── Seul Core est partagé entre les modules ─────────────────────────────────
 
-it('le Domain Patients ne dépend que de App\\Core et de PHP natif', function (): void {
-    // Les seuls imports autorisés dans le Domain sont :
+it('le Domain Patients ne dépend que de App\\Core, PHP natif et illuminate/support', function (): void {
+    // Les imports autorisés dans le Domain sont :
     // - App\Core\Domain\ (contrats partagés)
-    // - PHP natif (InvalidArgumentException, DateTimeImmutable…)
-    // Tout autre namespace Illuminate ou tiers est interdit.
+    // - PHP natif (InvalidArgumentException…)
+    // - Carbon\ (bibliothèque de dates pure, zéro I/O)
+    // - Illuminate\Support\ (Str, Collection — bibliothèques pures)
+    // Interdit : Illuminate\Database, Illuminate\Support\Facades (autres tests).
     $violations = [];
 
-    $allowed = ['App\\Core\\', 'InvalidArgumentException', 'DateTimeImmutable'];
+    $allowed = ['App\\Core\\', 'InvalidArgumentException', 'Carbon\\', 'Illuminate\\Support\\'];
 
     foreach (phpFiles(base_path('Modules/Patients/app/Domain')) as $file) {
         foreach (useStatements($file) as $use) {
@@ -284,10 +286,10 @@ it('le Domain Patients ne dépend que de App\\Core et de PHP natif', function ()
     expect($violations)->toBeEmpty();
 });
 
-it('le Domain Docteurs ne dépend que de App\\Core et de PHP natif', function (): void {
+it('le Domain Docteurs ne dépend que de App\\Core, PHP natif et illuminate/support', function (): void {
     $violations = [];
 
-    $allowed = ['App\\Core\\', 'InvalidArgumentException', 'DateTimeImmutable'];
+    $allowed = ['App\\Core\\', 'InvalidArgumentException', 'Carbon\\', 'Illuminate\\Support\\'];
 
     foreach (phpFiles(base_path('Modules/Docteurs/app/Domain')) as $file) {
         foreach (useStatements($file) as $use) {

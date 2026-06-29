@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Domain;
 
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -42,14 +43,7 @@ abstract class EntityId implements \Stringable
      */
     public static function generate(): static
     {
-        return new static(sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xFFFF), mt_rand(0, 0xFFFF),
-            mt_rand(0, 0xFFFF),
-            mt_rand(0, 0x0FFF) | 0x4000,
-            mt_rand(0, 0x3FFF) | 0x8000,
-            mt_rand(0, 0xFFFF), mt_rand(0, 0xFFFF), mt_rand(0, 0xFFFF),
-        ));
+        return new static((string) Str::uuid());
     }
 
     public function value(): string

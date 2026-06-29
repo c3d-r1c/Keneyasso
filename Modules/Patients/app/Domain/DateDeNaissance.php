@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Patients\Domain;
 
 use App\Core\Domain\ValueObject;
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 use InvalidArgumentException;
 
 /**
@@ -21,28 +21,28 @@ use InvalidArgumentException;
  */
 final class DateDeNaissance extends ValueObject
 {
-    private function __construct(private readonly DateTimeImmutable $valeur) {}
+    private function __construct(private readonly CarbonImmutable $valeur) {}
 
     public static function fromString(string $date): self
     {
-        $parsed = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        $parsed = CarbonImmutable::createFromFormat('Y-m-d', $date);
 
         if ($parsed === false || $parsed->format('Y-m-d') !== $date) {
             throw new InvalidArgumentException("Format de date invalide : {$date}. Format attendu : Y-m-d");
         }
 
-        if ($parsed > new DateTimeImmutable('today')) {
+        if ($parsed->isAfter(CarbonImmutable::today())) {
             throw new InvalidArgumentException('La date de naissance ne peut pas être dans le futur');
         }
 
-        if ($parsed->format('Y') < '1900') {
+        if ($parsed->year < 1900) {
             throw new InvalidArgumentException('La date de naissance ne peut pas être antérieure à 1900');
         }
 
         return new self($parsed);
     }
 
-    public function valeur(): DateTimeImmutable
+    public function valeur(): CarbonImmutable
     {
         return $this->valeur;
     }
@@ -50,7 +50,7 @@ final class DateDeNaissance extends ValueObject
     /** Calcule l'âge en années révolues à la date d'aujourd'hui. */
     public function age(): int
     {
-        return (int) $this->valeur->diff(new DateTimeImmutable('today'))->y;
+        return $this->valeur->age;
     }
 
     public function equals(ValueObject $other): bool

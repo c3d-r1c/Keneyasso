@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Domain;
 
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 
 /**
  * Fait domaine passé et immuable.
@@ -17,8 +17,8 @@ use DateTimeImmutable;
  * directement le module Consultation.
  *
  * L'événement est enregistré dans l'AggregateRoot via record() puis
- * dispatché par l'Infrastructure après la sauvegarde en base —
- * jamais depuis le Domain lui-même (pas de Event::dispatch() ici).
+ * dispatché par le Handler après la sauvegarde en base (via pullDomainEvents()).
+ * Jamais depuis le Domain lui-même.
  *
  * Usage :
  *   class PatientInscrit extends DomainEvent {
@@ -29,15 +29,15 @@ use DateTimeImmutable;
  */
 abstract class DomainEvent
 {
-    private readonly DateTimeImmutable $occurredAt;
+    private readonly CarbonImmutable $occurredAt;
 
     public function __construct()
     {
-        $this->occurredAt = new DateTimeImmutable;
+        $this->occurredAt = CarbonImmutable::now();
     }
 
     /** Moment où l'événement s'est produit (horodatage automatique à la création). */
-    public function occurredAt(): DateTimeImmutable
+    public function occurredAt(): CarbonImmutable
     {
         return $this->occurredAt;
     }

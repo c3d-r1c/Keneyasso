@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Docteurs\Domain;
 
 use App\Core\Domain\ValueObject;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -34,7 +35,7 @@ final class Nom extends ValueObject implements \Stringable
             throw new InvalidArgumentException('Le nom de famille ne peut pas être vide');
         }
 
-        $this->prenom = mb_ucfirst(mb_strtolower(trim($prenom)));
+        $this->prenom = Str::ucfirst(mb_strtolower(trim($prenom)));
         $this->nomDeFamille = mb_strtoupper(trim($nomDeFamille));
     }
 

@@ -10,10 +10,10 @@
 ```
 Modules/{Nom}/
 ├── app/                              ← tout le code PHP du module
-│   ├── Domain/                       ← agnostique (ValueObjects, AggregateRoot, Events, interface Repository)
-│   ├── Application/                  ← agnostique (Commands, Handlers)
+│   ├── Domain/                       ← ValueObjects, AggregateRoot, Events, interface Repository
+│   ├── Actions/                      ← actions invocables (une par use case), injectées par Laravel
 │   ├── Http/
-│   │   ├── Controllers/              ← standard Laravel
+│   │   ├── Controllers/              ← standard Laravel (mince : délègue à l'Action)
 │   │   └── Requests/                 ← FormRequests
 │   ├── Models/                       ← Eloquent (privé au module)
 │   ├── Providers/
@@ -33,14 +33,22 @@ Modules/{Nom}/
 
 ## Ce qu'on utilise dans chaque couche
 
-| Couche         | Laravel autorisé                                        | À éviter               |
-|----------------|---------------------------------------------------------|------------------------|
-| Domain         | `illuminate/contracts` (interfaces seulement)           | Eloquent, DB::, facades|
-| Application    | Events, Jobs, Mail (abstractions)                       | Eloquent direct        |
-| Infrastructure | Eloquent, migrations, DB::, bindings                    | Logique métier         |
-| Presentation   | Controllers, Livewire, FormRequest, Route, Resource     | Logique métier         |
+| Couche         | Laravel autorisé                                                                       | À éviter                        |
+|----------------|----------------------------------------------------------------------------------------|---------------------------------|
+| Domain         | `illuminate/contracts` (interfaces), `illuminate/support` (Carbon, Str, Collection)   | Eloquent, DB::, facades I/O     |
+| Application    | `Illuminate\Contracts\Events\Dispatcher`, Jobs, Mail (contrats uniquement)             | Eloquent direct                 |
+| Infrastructure | Eloquent, migrations, DB::, bindings                                                   | Logique métier                  |
+| Presentation   | Controllers, Livewire, FormRequest, Route, Resource                                    | Logique métier                  |
 
-**Règle pratique :** Domain + Application doivent être testables sans `RefreshDatabase`.
+**Règle réelle :** Domain + Application doivent être testables sans `RefreshDatabase`.
+Ce qui est interdit n'est pas "tout Laravel" mais **l'infrastructure** : pas d'Eloquent direct, pas de `DB::`,
+pas de facades qui touchent la BDD, le filesystem ou HTTP.
+`Carbon`, `Str`, `Collection` sont des bibliothèques pures — zéro I/O, parfaitement testables en isolation.
+
+**Actions invocables :** une Action = un use case. Elle injecte le Repository et le Dispatcher,
+construit les ValueObjects, persiste, puis dispatche les DomainEvents APRÈS `save()`.
+Le container Laravel résout les dépendances automatiquement dans le Controller :
+`public function store(MyRequest $request, MonAction $action): RedirectResponse`
 
 ## Communication inter-modules
 Via Contrats + Interfaces + Événements Laravel UNIQUEMENT.
@@ -51,7 +59,7 @@ Jamais `Patient::find()` ou `PatientModel::` depuis un autre module.
 tests/
 ├── Unit/Modules/Patients/
 │   ├── Domain/      ← sans RefreshDatabase
-│   └── Application/ ← sans RefreshDatabase
+│   └── Actions/     ← sans RefreshDatabase (doubles InMemory + DispatcherSpy)
 └── Feature/Modules/Patients/
     └── Http/        ← avec RefreshDatabase
 ```

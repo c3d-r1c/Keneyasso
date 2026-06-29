@@ -6,33 +6,24 @@ namespace Modules\Patients\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Modules\Patients\Application\InscrirePatientCommand;
-use Modules\Patients\Application\InscrirePatientHandler;
+use Modules\Patients\Actions\InscrirePatient;
 use Modules\Patients\Http\Requests\InscrirePatientRequest;
 
 /**
  * Expose les actions HTTP du module Patients.
  *
- * Le Controller est un adaptateur mince : il traduit la requête HTTP
- * en Command, délègue au Handler, puis traduit le résultat en réponse HTTP.
- * Aucune logique métier ici — tout est dans le Domain et l'Application.
+ * Adaptateur mince : traduit la requête HTTP en scalaires, délègue à l'Action,
+ * puis traduit le résultat en réponse HTTP. Aucune logique métier ici.
  */
 final class PatientController extends Controller
 {
-    public function __construct(
-        private readonly InscrirePatientHandler $handler,
-    ) {}
-
-    /**
-     * Inscrit un nouveau patient et redirige vers sa fiche.
-     */
-    public function store(InscrirePatientRequest $request): RedirectResponse
+    public function store(InscrirePatientRequest $request, InscrirePatient $action): RedirectResponse
     {
-        $id = $this->handler->handle(new InscrirePatientCommand(
-            prenom: $request->prenom(),
-            nomDeFamille: $request->nomDeFamille(),
-            dateDeNaissance: $request->dateDeNaissance(),
-        ));
+        $id = $action(
+            $request->prenom(),
+            $request->nomDeFamille(),
+            $request->dateDeNaissance(),
+        );
 
         return redirect()->route('doclinic.patient_details', ['id' => $id->value()]);
     }
