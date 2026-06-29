@@ -1,0 +1,15 @@
+{
+    "name": "keneyasso/docteurs",
+    "description": "Module Docteurs",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Docteurs\\": "app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    }
+}

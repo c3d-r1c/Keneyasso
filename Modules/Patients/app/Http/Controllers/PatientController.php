@@ -29,11 +29,11 @@ final class PatientController extends Controller
     public function store(InscrirePatientRequest $request): RedirectResponse
     {
         $id = $this->handler->handle(new InscrirePatientCommand(
-            prenom: $request->validated('prenom'),
-            nomDeFamille: $request->validated('nom_de_famille'),
-            dateDeNaissance: $request->validated('date_de_naissance'),
+            prenom: $request->prenom(),
+            nomDeFamille: $request->nomDeFamille(),
+            dateDeNaissance: $request->dateDeNaissance(),
         ));
 
-        return redirect()->route('patients.store', ['id' => $id->value()]);
+        return redirect()->route('doclinic.patient_details', ['id' => $id->value()]);
     }
 }

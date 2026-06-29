@@ -14,6 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  * l'interface PatientRepository et les événements Domain.
  *
  * Il n'expose pas de logique métier : c'est un pur outil de persistance.
+ *
+ * @property string $id
+ * @property string $prenom
+ * @property string $nom_de_famille
+ * @property string $date_de_naissance
  */
 final class PatientModel extends Model
 {

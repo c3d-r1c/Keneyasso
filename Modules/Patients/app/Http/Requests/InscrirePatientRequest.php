@@ -29,4 +29,19 @@ final class InscrirePatientRequest extends FormRequest
             'date_de_naissance' => ['required', 'date_format:Y-m-d'],
         ];
     }
+
+    public function prenom(): string
+    {
+        return $this->string('prenom')->value();
+    }
+
+    public function nomDeFamille(): string
+    {
+        return $this->string('nom_de_famille')->value();
+    }
+
+    public function dateDeNaissance(): string
+    {
+        return $this->string('date_de_naissance')->value();
+    }
 }
