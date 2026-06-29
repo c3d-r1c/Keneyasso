@@ -43,7 +43,7 @@ it('le module Docteurs est activé par défaut', function (): void {
 });
 
 it('les deux modules apparaissent dans la liste des modules', function (): void {
-    $noms = array_map('strtolower', array_keys(app('modules')->all()));
+    $noms = array_map(strtolower(...), array_keys(app('modules')->all()));
 
     expect($noms)->toContain('patients')
         ->and($noms)->toContain('docteurs');

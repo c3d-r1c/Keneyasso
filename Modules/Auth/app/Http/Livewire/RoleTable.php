@@ -7,6 +7,7 @@ namespace Modules\Auth\Http\Livewire;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -38,6 +39,12 @@ final class RoleTable extends Component
             )
             ->orderBy('name')
             ->paginate(15);
+    }
+
+    #[On('roleCreated')]
+    public function refreshRoles(): void
+    {
+        unset($this->roles);
     }
 
     public function delete(int $id): void

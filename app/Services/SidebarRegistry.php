@@ -20,7 +20,7 @@ final class SidebarRegistry
     {
         $this->items[] = $item;
 
-        usort($this->items, static fn (SidebarItem $a, SidebarItem $b) => $a->order <=> $b->order);
+        usort($this->items, static fn (SidebarItem $a, SidebarItem $b): int => $a->order <=> $b->order);
     }
 
     /** @return SidebarItem[] */

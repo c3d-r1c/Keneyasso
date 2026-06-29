@@ -53,7 +53,7 @@ function useStatements(string $path): array
 {
     $lines = file($path, FILE_IGNORE_NEW_LINES) ?: [];
 
-    return array_values(array_filter($lines, fn ($l) => str_starts_with(trim($l), 'use ')));
+    return array_values(array_filter($lines, fn (string $l): bool => str_starts_with(trim($l), 'use ')));
 }
 
 // ─── Pas de couplage inter-modules : Patients ↔ Docteurs ─────────────────────
@@ -237,7 +237,7 @@ it('Patients a son propre module.json avec son provider déclaré', function ():
 
     $config = json_decode(file_get_contents($path), true);
 
-    expect($config['providers'])->toContain('Modules\\Patients\\Providers\\PatientsServiceProvider');
+    expect($config['providers'])->toContain(\Modules\Patients\Providers\PatientsServiceProvider::class);
 });
 
 it('Docteurs a son propre module.json avec son provider déclaré', function (): void {
@@ -246,7 +246,7 @@ it('Docteurs a son propre module.json avec son provider déclaré', function ():
 
     $config = json_decode(file_get_contents($path), true);
 
-    expect($config['providers'])->toContain('Modules\\Docteurs\\Providers\\DocteursServiceProvider');
+    expect($config['providers'])->toContain(\Modules\Docteurs\Providers\DocteursServiceProvider::class);
 });
 
 // ─── Seul Core est partagé entre les modules ─────────────────────────────────

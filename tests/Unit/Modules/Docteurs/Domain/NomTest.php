@@ -20,15 +20,15 @@ it('accepte un prénom et un nom de famille valides', function (): void {
 });
 
 it('rejette un prénom vide', function (): void {
-    expect(fn () => new Nom('', 'Coulibaly'))->toThrow(InvalidArgumentException::class);
+    expect(fn (): \Modules\Docteurs\Domain\Nom => new Nom('', 'Coulibaly'))->toThrow(InvalidArgumentException::class);
 });
 
 it('rejette un nom de famille vide', function (): void {
-    expect(fn () => new Nom('Ibrahim', ''))->toThrow(InvalidArgumentException::class);
+    expect(fn (): \Modules\Docteurs\Domain\Nom => new Nom('Ibrahim', ''))->toThrow(InvalidArgumentException::class);
 });
 
 it('rejette un prénom composé uniquement d\'espaces', function (): void {
-    expect(fn () => new Nom('   ', 'Coulibaly'))->toThrow(InvalidArgumentException::class);
+    expect(fn (): \Modules\Docteurs\Domain\Nom => new Nom('   ', 'Coulibaly'))->toThrow(InvalidArgumentException::class);
 });
 
 // ─── Normalisation ────────────────────────────────────────────────────────────
