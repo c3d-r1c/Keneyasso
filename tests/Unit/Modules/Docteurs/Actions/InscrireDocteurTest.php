@@ -58,15 +58,22 @@ final class DocteurDispatcherSpy implements Dispatcher
 
     public function listen($events, $listener = null): void {}
 
-    public function hasListeners($eventName): bool { return false; }
+    public function hasListeners($eventName): bool
+    {
+        return false;
+    }
 
     public function subscribe($subscriber): void {}
 
-    public function until($event, $payload = []): mixed { return null; }
+    public function until($event, $payload = []): mixed
+    {
+        return null;
+    }
 
     public function dispatch($event, $payload = [], $halt = false): mixed
     {
         $this->dispatched[] = $event;
+
         return null;
     }
 
