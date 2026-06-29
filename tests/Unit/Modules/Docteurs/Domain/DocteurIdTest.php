@@ -27,7 +27,7 @@ it('se reconstruit depuis un UUID valide', function (): void {
 });
 
 it('rejette une chaîne qui n\'est pas un UUID', function (): void {
-    expect(fn (): \Modules\Docteurs\Domain\DocteurId => DocteurId::fromString('pas-un-uuid'))->toThrow(InvalidArgumentException::class);
+    expect(fn (): DocteurId => DocteurId::fromString('pas-un-uuid'))->toThrow(InvalidArgumentException::class);
 });
 
 // ─── Égalité ──────────────────────────────────────────────────────────────────

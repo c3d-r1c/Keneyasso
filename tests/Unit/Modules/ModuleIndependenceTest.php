@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+use Modules\Docteurs\Providers\DocteursServiceProvider;
+use Modules\Patients\Providers\PatientsServiceProvider;
 
 /**
  * Tests d'indépendance structurelle des modules.
@@ -237,7 +239,7 @@ it('Patients a son propre module.json avec son provider déclaré', function ():
 
     $config = json_decode(file_get_contents($path), true);
 
-    expect($config['providers'])->toContain(\Modules\Patients\Providers\PatientsServiceProvider::class);
+    expect($config['providers'])->toContain(PatientsServiceProvider::class);
 });
 
 it('Docteurs a son propre module.json avec son provider déclaré', function (): void {
@@ -246,7 +248,7 @@ it('Docteurs a son propre module.json avec son provider déclaré', function ():
 
     $config = json_decode(file_get_contents($path), true);
 
-    expect($config['providers'])->toContain(\Modules\Docteurs\Providers\DocteursServiceProvider::class);
+    expect($config['providers'])->toContain(DocteursServiceProvider::class);
 });
 
 // ─── Seul Core est partagé entre les modules ─────────────────────────────────

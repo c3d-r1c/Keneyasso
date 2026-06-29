@@ -19,11 +19,11 @@ it('accepte un numéro d\'ordre valide', function (): void {
 });
 
 it('rejette un numéro vide', function (): void {
-    expect(fn (): \Modules\Docteurs\Domain\NumeroOrdre => new NumeroOrdre(''))->toThrow(InvalidArgumentException::class);
+    expect(fn (): NumeroOrdre => new NumeroOrdre(''))->toThrow(InvalidArgumentException::class);
 });
 
 it('rejette un numéro composé uniquement d\'espaces', function (): void {
-    expect(fn (): \Modules\Docteurs\Domain\NumeroOrdre => new NumeroOrdre('   '))->toThrow(InvalidArgumentException::class);
+    expect(fn (): NumeroOrdre => new NumeroOrdre('   '))->toThrow(InvalidArgumentException::class);
 });
 
 // ─── Normalisation ────────────────────────────────────────────────────────────

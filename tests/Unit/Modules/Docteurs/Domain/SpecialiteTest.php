@@ -18,11 +18,11 @@ it('accepte une spécialité valide', function (): void {
 });
 
 it('rejette une spécialité vide', function (): void {
-    expect(fn (): \Modules\Docteurs\Domain\Specialite => new Specialite(''))->toThrow(InvalidArgumentException::class);
+    expect(fn (): Specialite => new Specialite(''))->toThrow(InvalidArgumentException::class);
 });
 
 it('rejette une spécialité composée uniquement d\'espaces', function (): void {
-    expect(fn (): \Modules\Docteurs\Domain\Specialite => new Specialite('   '))->toThrow(InvalidArgumentException::class);
+    expect(fn (): Specialite => new Specialite('   '))->toThrow(InvalidArgumentException::class);
 });
 
 // ─── Normalisation ────────────────────────────────────────────────────────────

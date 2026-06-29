@@ -88,7 +88,7 @@ it('getById() retourne le docteur quand il existe', function (): void {
 
 it('getById() lève DocteurIntrouvable si le docteur est absent', function (): void {
     $repo = new EloquentDocteurRepository;
-    expect(fn (): \Modules\Docteurs\Domain\Docteur => $repo->getById(DocteurId::generate()))->toThrow(DocteurIntrouvable::class);
+    expect(fn (): Docteur => $repo->getById(DocteurId::generate()))->toThrow(DocteurIntrouvable::class);
 });
 
 // ─── reconstitution ───────────────────────────────────────────────────────────

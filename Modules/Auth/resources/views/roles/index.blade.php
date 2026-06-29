@@ -61,8 +61,8 @@
     </section>
 </div>
 
-{{-- Modal : formulaire de création de rôle --}}
-<div id="roleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+{{-- Modal plein écran (fill modal du template component_modals.html) --}}
+<div id="roleModal" class="modal modal-fill fade" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
