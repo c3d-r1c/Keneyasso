@@ -13,8 +13,9 @@ class ExampleTest extends TestCase
 
     public function test_the_application_redirects_to_dashboard(): void
     {
+        // La route / est protégée — un invité est redirigé vers /login.
         $response = $this->get('/');
 
-        $response->assertOk();
+        $response->assertRedirect(route('login'));
     }
 }

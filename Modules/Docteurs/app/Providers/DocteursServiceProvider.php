@@ -6,6 +6,7 @@ namespace Modules\Docteurs\Providers;
 
 use App\Services\SidebarItem;
 use App\Services\SidebarRegistry;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\Docteurs\Domain\DocteurRepository;
@@ -33,17 +34,21 @@ final class DocteursServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        Route::middleware('web')->group(function (): void {
+            $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        });
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'docteurs');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'docteurs');
 
         Livewire::component('docteurs.docteur-table', DocteurTable::class);
 
         $this->app->make(SidebarRegistry::class)->register(new SidebarItem(
-            label: 'Médecins',
+            label: __('menu.medecins'),
             route: 'doclinic.doctor_list',
             icon: 'icon-Diagnostics',
             order: 20,
             homeComponent: 'docteurs.docteur-table',
+            permission: 'voir docteurs',
         ));
     }
 }

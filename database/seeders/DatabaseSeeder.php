@@ -5,23 +5,37 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1. Crée toutes les permissions + rôle admin
+        $this->call(PermissionSeeder::class);
 
+        // 2. Admin — accès total via Gate::before()
+        $admin = User::factory()->create([
+            'name'  => 'Super Admin',
+            'email' => 'admin@keneyasso.ml',
+        ]);
+        $admin->assignRole('admin');
+
+        // 3. Infirmier — accès limité (voir patients uniquement)
+        $infirmier = Role::firstOrCreate(['name' => 'infirmier', 'guard_name' => 'web']);
+        $infirmier->givePermissionTo('voir patients');
+
+        $user = User::factory()->create([
+            'name'  => 'Fatoumata Diallo',
+            'email' => 'infirmier@keneyasso.ml',
+        ]);
+        $user->assignRole('infirmier');
+
+        // 4. Sans rôle — connecté mais bloqué partout
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name'  => 'Utilisateur Bloqué',
+            'email' => 'bloque@keneyasso.ml',
         ]);
     }
 }

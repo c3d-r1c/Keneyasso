@@ -65,15 +65,20 @@
                             <div class="d-flex pt-1">
                                 <div class="text-end me-10">
                                     <p class="pt-5 fs-14 mb-0 fw-700 text-primary">{{ auth()->user()?->name ?? 'Admin' }}</p>
-                                    <small class="fs-10 mb-0 text-uppercase text-mute">Admin</small>
+                                    <small class="fs-10 mb-0 text-uppercase text-mute">{{ auth()->user()?->getRoleNames()->first() ?? '' }}</small>
                                 </div>
                                 <img src="/assets/images/avatar/avatar-1.png" class="avatar rounded-10 bg-primary-light h-40 w-40" alt="">
                             </div>
                         </a>
                         <ul class="dropdown-menu animated flipInX">
                             <li class="user-body">
-                                <a class="dropdown-item" href="#"><i class="ti-user text-muted me-2"></i> Profil</a>
-                                <a class="dropdown-item" href="#"><i class="ti-lock text-muted me-2"></i> Déconnexion</a>
+                                <a class="dropdown-item" href="#"><i class="ti-user text-muted me-2"></i> {{ __('ui.profil') }}</a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="ti-lock text-muted me-2"></i> {{ __('ui.deconnexion') }}
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </li>
@@ -120,6 +125,8 @@
 
                         @foreach(app(\App\Services\SidebarRegistry::class)->items() as $item)
                             @if($item->hasChildren())
+                                @php $visibleChildren = collect($item->children)->filter(fn($c) => !$c->permission || auth()->user()?->can($c->permission))->values(); @endphp
+                                @if($visibleChildren->isNotEmpty())
                                 <li class="treeview">
                                     <a href="#">
                                         <i class="{{ $item->icon }}"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
@@ -127,7 +134,7 @@
                                         <i class="ti-angle-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        @foreach($item->children as $child)
+                                        @foreach($visibleChildren as $child)
                                             <li>
                                                 <a href="{{ route($child->route) }}">
                                                     <i class="{{ $child->icon }}"><span class="path1"></span><span class="path2"></span></i>
@@ -137,7 +144,8 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                            @else
+                                @endif
+                            @elseif(!$item->permission || auth()->user()?->can($item->permission))
                                 <li>
                                     <a href="{{ route($item->route) }}">
                                         <i class="{{ $item->icon }}"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
@@ -163,6 +171,9 @@
     <div class="content-wrapper">
         @yield('content')
     </div>
+
+    {{-- ═══ NOTIFICATIONS FLASH ═══ --}}
+    <x-flash-notification />
 
     {{-- ═══ CONTROL SIDEBAR ═══ --}}
     <aside class="control-sidebar control-sidebar-dark">

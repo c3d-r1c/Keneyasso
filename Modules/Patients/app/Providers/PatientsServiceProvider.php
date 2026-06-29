@@ -6,6 +6,7 @@ namespace Modules\Patients\Providers;
 
 use App\Services\SidebarItem;
 use App\Services\SidebarRegistry;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\Patients\Domain\PatientRepository;
@@ -33,17 +34,21 @@ final class PatientsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        Route::middleware('web')->group(function (): void {
+            $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        });
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'patients');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'patients');
 
         Livewire::component('patients.patient-table', PatientTable::class);
 
         $this->app->make(SidebarRegistry::class)->register(new SidebarItem(
-            label: 'Patients',
+            label: __('menu.patients'),
             route: 'doclinic.patients',
             icon: 'icon-Compiling',
             order: 10,
             homeComponent: 'patients.patient-table',
+            permission: 'voir patients',
         ));
     }
 }

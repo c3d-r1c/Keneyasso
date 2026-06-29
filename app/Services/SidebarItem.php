@@ -32,6 +32,7 @@ final readonly class SidebarItem
         public int $order = 0,
         public ?string $homeComponent = null,
         public array $children = [],
+        public ?string $permission = null,
     ) {}
 
     public function hasChildren(): bool

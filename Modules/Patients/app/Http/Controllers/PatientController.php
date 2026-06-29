@@ -25,6 +25,8 @@ final class PatientController extends Controller
             $request->dateDeNaissance(),
         );
 
-        return redirect()->route('doclinic.patient_details', ['id' => $id->value()]);
+        return redirect()
+            ->route('doclinic.patient_details', ['id' => $id->value()])
+            ->with('notify_success', __('patients::labels.notif_patient_inscrit'));
     }
 }

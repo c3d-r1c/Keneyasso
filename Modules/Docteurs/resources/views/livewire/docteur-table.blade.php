@@ -4,7 +4,7 @@
             wire:model.live.debounce.300ms="search"
             type="text"
             class="form-control"
-            placeholder="Rechercher un médecin..."
+            placeholder="{{ __('docteurs::labels.rechercher') }}"
         >
     </div>
 
@@ -12,11 +12,11 @@
         <table class="table border-no" id="docteurs-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Spécialité</th>
-                    <th>N° Ordre</th>
+                    <th>{{ __('docteurs::labels.col_id') }}</th>
+                    <th>{{ __('docteurs::labels.col_prenom') }}</th>
+                    <th>{{ __('docteurs::labels.col_nom') }}</th>
+                    <th>{{ __('docteurs::labels.col_specialite') }}</th>
+                    <th>{{ __('docteurs::labels.col_numero_ordre') }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,7 +35,7 @@
                                 </a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ route('doclinic.doctors', $docteur->id) }}">
-                                        Voir le profil
+                                        {{ __('docteurs::labels.voir_profil') }}
                                     </a>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                 @empty
                     <tr>
                         <td colspan="6" class="text-center text-muted py-30">
-                            Aucun médecin enregistré.
+                            {{ __('docteurs::labels.aucun_medecin') }}
                         </td>
                     </tr>
                 @endforelse

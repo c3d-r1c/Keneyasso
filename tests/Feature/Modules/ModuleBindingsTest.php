@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Illuminate\Foundation\Application;
+use Illuminate\Container\Container;
 use Illuminate\Routing\Router;
 use Modules\Docteurs\Domain\DocteurRepository;
 use Modules\Docteurs\Providers\DocteursServiceProvider;
@@ -81,31 +81,35 @@ it('la route doclinic.docteurs.store pointe vers DocteurController@store', funct
 // ─── Autonomie des ServiceProviders ───────────────────────────────────────────
 
 it('PatientsServiceProvider peut enregistrer ses bindings dans un container vide', function (): void {
-    // Simule un chargement isolé du module sans dépendance sur Docteurs.
-    $app = new Application(base_path());
-    $app->register(PatientsServiceProvider::class);
+    // Container léger : ne bootstrap pas l'app, teste uniquement register().
+    $container = new Container();
+    $provider = new PatientsServiceProvider($container);
+    $provider->register();
 
-    expect($app->bound(PatientRepository::class))->toBeTrue();
+    expect($container->bound(PatientRepository::class))->toBeTrue();
 });
 
 it('DocteursServiceProvider peut enregistrer ses bindings dans un container vide', function (): void {
-    $app = new Application(base_path());
-    $app->register(DocteursServiceProvider::class);
+    $container = new Container();
+    $provider = new DocteursServiceProvider($container);
+    $provider->register();
 
-    expect($app->bound(DocteurRepository::class))->toBeTrue();
+    expect($container->bound(DocteurRepository::class))->toBeTrue();
 });
 
 it('PatientsServiceProvider ne binding pas DocteurRepository', function (): void {
     // Un ServiceProvider ne doit pas empiéter sur le territoire d'un autre module.
-    $app = new Application(base_path());
-    $app->register(PatientsServiceProvider::class);
+    $container = new Container();
+    $provider = new PatientsServiceProvider($container);
+    $provider->register();
 
-    expect($app->bound(DocteurRepository::class))->toBeFalse();
+    expect($container->bound(DocteurRepository::class))->toBeFalse();
 });
 
 it('DocteursServiceProvider ne binding pas PatientRepository', function (): void {
-    $app = new Application(base_path());
-    $app->register(DocteursServiceProvider::class);
+    $container = new Container();
+    $provider = new DocteursServiceProvider($container);
+    $provider->register();
 
-    expect($app->bound(PatientRepository::class))->toBeFalse();
+    expect($container->bound(PatientRepository::class))->toBeFalse();
 });

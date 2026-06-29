@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Patients')
+@section('title', __('patients::labels.page_titre'))
 
 @section('content')
 <div class="container-full">
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Patients</h4>
+                <h4 class="page-title">{{ __('patients::labels.page_titre') }}</h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Patients</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('patients::labels.breadcrumb') }}</li>
                         </ol>
                     </nav>
                 </div>
