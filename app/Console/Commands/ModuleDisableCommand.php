@@ -23,16 +23,24 @@ class ModuleDisableCommand extends Command
     public function handle(): int
     {
         $name = (string) $this->argument('module');
-        $module = Module::find($name);
 
-        if ($module === null) {
+        if (! Module::has($name)) {
             $this->error("Le module [{$name}] n'existe pas.");
 
             return self::FAILURE;
         }
 
-        $json = json_decode(file_get_contents($module->getPath().'/module.json'), true);
-        $required = (bool) ($json['required'] ?? false);
+        $module   = Module::find($name);
+        $contents = file_get_contents($module->getPath() . '/module.json');
+
+        if ($contents === false) {
+            $this->error("Impossible de lire module.json pour [{$name}].");
+
+            return self::FAILURE;
+        }
+
+        $json     = json_decode($contents, true);
+        $required = is_array($json) && (bool) ($json['required'] ?? false);
 
         if ($required) {
             $this->error("Le module [{$name}] est requis par l'application et ne peut pas être désactivé.");
