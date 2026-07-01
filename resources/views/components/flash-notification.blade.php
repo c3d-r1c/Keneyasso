@@ -29,7 +29,7 @@
         items: @js($initial),
 
         add(data) {
-            const id = Date.now();
+            const id = Date.now() + Math.random();
             this.items.push({ id, message: data.message, type: data.type ?? 'success' });
             setTimeout(() => this.close(id), 4000);
         },
@@ -50,18 +50,29 @@
         <div
             x-show="true"
             x-transition
-            class="myadmin-alert myadmin-alert-icon mb-10"
-            :class="'alert-' + item.type"
-            style="min-width: 300px; max-width: 420px;"
+            class="alert alert-dismissible d-flex align-items-center mb-10"
+            :class="{
+                'alert-success': item.type === 'success',
+                'alert-danger':  item.type === 'danger' || item.type === 'error',
+                'alert-warning': item.type === 'warning',
+                'alert-info':    item.type === 'info'
+            }"
+            style="min-width: 300px; max-width: 420px; box-shadow: 0 4px 16px rgba(0,0,0,.18);"
+            role="alert"
         >
-            <i :class="{
-                'fa fa-check-circle':        item.type === 'success',
-                'fa fa-times-circle':        item.type === 'danger'  || item.type === 'error',
-                'fa fa-exclamation-triangle': item.type === 'warning',
-                'fa fa-info-circle':         item.type === 'info'
+            <i class="me-10 fs-16" :class="{
+                'ti-check':          item.type === 'success',
+                'ti-close':          item.type === 'danger' || item.type === 'error',
+                'ti-alert':          item.type === 'warning',
+                'ti-info-alt':       item.type === 'info'
             }"></i>
-            <span x-text="item.message"></span>
-            <a href="#" @click.prevent="close(item.id)" class="closed">&times;</a>
+            <span x-text="item.message" class="flex-grow-1"></span>
+            <button
+                type="button"
+                class="btn-close ms-10"
+                @click.prevent="close(item.id)"
+                aria-label="Fermer"
+            ></button>
         </div>
     </template>
 </div>
