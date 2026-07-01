@@ -30,8 +30,8 @@ class ModuleDisableCommand extends Command
             return self::FAILURE;
         }
 
-        $module   = Module::find($name);
-        $contents = file_get_contents($module->getPath() . '/module.json');
+        $module = Module::find($name);
+        $contents = file_get_contents($module->getPath().'/module.json');
 
         if ($contents === false) {
             $this->error("Impossible de lire module.json pour [{$name}].");
@@ -39,7 +39,7 @@ class ModuleDisableCommand extends Command
             return self::FAILURE;
         }
 
-        $json     = json_decode($contents, true);
+        $json = json_decode($contents, true);
         $required = is_array($json) && (bool) ($json['required'] ?? false);
 
         if ($required) {
