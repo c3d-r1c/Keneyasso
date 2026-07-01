@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Politique globale : le rôle admin bypass tous les can() de l'application,
         // quel que soit l'état des modules. À garder dans le core, pas dans un module.
-        Gate::before(static fn (User $user) => $user->hasRole('admin') ? true : null);
+        Gate::before(static fn (User $user): ?true => $user->hasRole('admin') ? true : null);
     }
 }
