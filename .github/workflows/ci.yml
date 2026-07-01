@@ -48,4 +48,4 @@ jobs:
         run: vendor/bin/rector --dry-run
 
       - name: Run tests (Pest)
-        run: vendor/bin/pest --parallel
+        run: vendor/bin/pest
