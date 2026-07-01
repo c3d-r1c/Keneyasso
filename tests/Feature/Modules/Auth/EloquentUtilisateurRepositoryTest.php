@@ -68,9 +68,9 @@ it('n\'assigne pas d\'autres rôles que celui demandé', function (): void {
 // ─── Recherche ────────────────────────────────────────────────────────────────
 
 it('retourne un utilisateur existant par son id', function (): void {
-    $role    = Role::create(['name' => 'médecin', 'guard_name' => 'web']);
+    $role = Role::create(['name' => 'médecin', 'guard_name' => 'web']);
     $created = User::create(['name' => 'Moussa Traoré', 'email' => 'moussa@hopital.ml', 'password' => 'secret']);
-    $repo    = new EloquentUtilisateurRepository;
+    $repo = new EloquentUtilisateurRepository;
 
     $found = $repo->findById($created->id);
 
@@ -93,9 +93,9 @@ it('met à jour le nom et l\'email de l\'utilisateur', function (): void {
 });
 
 it('change le rôle de l\'utilisateur lors de la modification', function (): void {
-    $ancien  = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
+    $ancien = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
     $nouveau = Role::create(['name' => 'médecin', 'guard_name' => 'web']);
-    $user    = User::create(['name' => 'Sali Koné', 'email' => 'sali@hopital.ml', 'password' => 'secret']);
+    $user = User::create(['name' => 'Sali Koné', 'email' => 'sali@hopital.ml', 'password' => 'secret']);
     $user->assignRole($ancien);
     $repo = new EloquentUtilisateurRepository;
 

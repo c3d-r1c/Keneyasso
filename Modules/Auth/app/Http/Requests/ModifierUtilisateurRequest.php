@@ -26,8 +26,8 @@ final class ModifierUtilisateurRequest extends FormRequest
         $userId = $this->route('user')?->id;
 
         return [
-            'nom'     => ['required', 'string', 'max:255'],
-            'email'   => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
+            'nom' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
             'role_id' => ['required', 'integer', 'exists:roles,id'],
         ];
     }

@@ -46,7 +46,7 @@ final class SupprimerUtilisateurSpy implements UtilisateurRepository
 
 it('délègue la suppression au repository avec le bon identifiant', function (): void {
     // La suppression d'un utilisateur est irréversible — le bon id doit être transmis.
-    $spy    = new SupprimerUtilisateurSpy;
+    $spy = new SupprimerUtilisateurSpy;
     $action = new SupprimerUtilisateur($spy);
 
     $action(99);

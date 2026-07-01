@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Auth\Repositories;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Auth\Domain\UtilisateurRepository;
 use Spatie\Permission\Models\Role;
 
@@ -24,8 +23,8 @@ final class EloquentUtilisateurRepository implements UtilisateurRepository
     public function creer(string $nom, string $email, string $password, int $roleId): User
     {
         $user = User::create([
-            'name'     => $nom,
-            'email'    => $email,
+            'name' => $nom,
+            'email' => $email,
             'password' => $password,
         ]);
 

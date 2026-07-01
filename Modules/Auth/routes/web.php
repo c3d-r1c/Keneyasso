@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Controllers\UserController;
+use Spatie\Permission\Models\Role;
 
 // ─── Routes admin (authentification requise) ──────────────────────────────────
 
@@ -17,7 +18,7 @@ Route::middleware('auth')->name('auth.')->group(function (): void {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/creer', function () {
             return view('auth::users.create', [
-                'roles' => \Spatie\Permission\Models\Role::orderBy('name')->get(),
+                'roles' => Role::orderBy('name')->get(),
             ]);
         })->name('create');
         Route::post('/', [UserController::class, 'store'])->name('store');

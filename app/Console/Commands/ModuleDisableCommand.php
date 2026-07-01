@@ -22,7 +22,7 @@ class ModuleDisableCommand extends Command
 
     public function handle(): int
     {
-        $name   = (string) $this->argument('module');
+        $name = (string) $this->argument('module');
         $module = Module::find($name);
 
         if ($module === null) {
@@ -31,7 +31,7 @@ class ModuleDisableCommand extends Command
             return self::FAILURE;
         }
 
-        $json     = json_decode(file_get_contents($module->getPath().'/module.json'), true);
+        $json = json_decode(file_get_contents($module->getPath().'/module.json'), true);
         $required = (bool) ($json['required'] ?? false);
 
         if ($required) {

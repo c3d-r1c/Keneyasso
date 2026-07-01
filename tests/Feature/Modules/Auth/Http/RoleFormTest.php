@@ -77,7 +77,7 @@ it('réinitialise le formulaire après une création réussie', function (): voi
 
 it('openEdit() pré-remplit le formulaire avec les données du rôle', function (): void {
     // Règle : l'admin doit retrouver l'état actuel du rôle pour le modifier.
-    $p1   = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
+    $p1 = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
     $role = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
     $role->givePermissionTo($p1);
 
@@ -91,8 +91,8 @@ it('openEdit() pré-remplit le formulaire avec les données du rôle', function 
 
 it('saveEdit() met à jour les permissions d\'un rôle existant', function (): void {
     // Règle : la mise à jour remplace exactement les permissions cochées.
-    $p1   = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
-    $p2   = Permission::create(['name' => 'voir docteurs', 'guard_name' => 'web']);
+    $p1 = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
+    $p2 = Permission::create(['name' => 'voir docteurs', 'guard_name' => 'web']);
     $role = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
     $role->givePermissionTo($p1);
 
@@ -109,8 +109,8 @@ it('saveEdit() met à jour les permissions d\'un rôle existant', function (): v
 
 it('save() retire une permission décochée lors de la mise à jour', function (): void {
     // Règle : syncPermissions remplace — les permissions non cochées sont retirées.
-    $p1   = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
-    $p2   = Permission::create(['name' => 'voir docteurs', 'guard_name' => 'web']);
+    $p1 = Permission::create(['name' => 'voir patients', 'guard_name' => 'web']);
+    $p2 = Permission::create(['name' => 'voir docteurs', 'guard_name' => 'web']);
     $role = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
     $role->syncPermissions([$p1, $p2]);
 

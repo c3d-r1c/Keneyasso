@@ -32,7 +32,7 @@ it('un invité ne peut pas soumettre le formulaire de création', function (): v
 
 it('un utilisateur connecté peut accéder au formulaire de création', function (): void {
     $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
-    $admin     = User::factory()->create();
+    $admin = User::factory()->create();
     $admin->assignRole($adminRole);
 
     $this->actingAs($admin)
@@ -42,16 +42,16 @@ it('un utilisateur connecté peut accéder au formulaire de création', function
 
 it('un admin peut créer un utilisateur et lui assigner un rôle', function (): void {
     $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
-    $admin     = User::factory()->create();
+    $admin = User::factory()->create();
     $admin->assignRole($adminRole);
-    $role      = Role::create(['name' => 'médecin', 'guard_name' => 'web']);
+    $role = Role::create(['name' => 'médecin', 'guard_name' => 'web']);
 
     $this->actingAs($admin)
         ->post(route('auth.users.store'), [
-            'nom'      => 'Moussa Konaté',
-            'email'    => 'moussa@keneyasso.ml',
+            'nom' => 'Moussa Konaté',
+            'email' => 'moussa@keneyasso.ml',
             'password' => 'motdepasse123',
-            'role_id'  => $role->id,
+            'role_id' => $role->id,
         ])
         ->assertRedirect();
 
@@ -63,32 +63,32 @@ it('un admin peut créer un utilisateur et lui assigner un rôle', function (): 
 
 it('l\'email doit être unique', function (): void {
     $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
-    $admin     = User::factory()->create();
+    $admin = User::factory()->create();
     $admin->assignRole($adminRole);
-    $role      = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
+    $role = Role::create(['name' => 'infirmier', 'guard_name' => 'web']);
     User::factory()->create(['email' => 'existant@test.com']);
 
     $this->actingAs($admin)
         ->post(route('auth.users.store'), [
-            'nom'      => 'Doublon',
-            'email'    => 'existant@test.com',
+            'nom' => 'Doublon',
+            'email' => 'existant@test.com',
             'password' => 'motdepasse123',
-            'role_id'  => $role->id,
+            'role_id' => $role->id,
         ])
         ->assertSessionHasErrors('email');
 });
 
 it('le rôle doit exister', function (): void {
     $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
-    $admin     = User::factory()->create();
+    $admin = User::factory()->create();
     $admin->assignRole($adminRole);
 
     $this->actingAs($admin)
         ->post(route('auth.users.store'), [
-            'nom'      => 'Test',
-            'email'    => 'test@test.com',
+            'nom' => 'Test',
+            'email' => 'test@test.com',
             'password' => 'motdepasse123',
-            'role_id'  => 9999,
+            'role_id' => 9999,
         ])
         ->assertSessionHasErrors('role_id');
 });

@@ -22,24 +22,33 @@ use Modules\Auth\Domain\UtilisateurRepository;
 /** @internal */
 final class CreerUtilisateurSpy implements UtilisateurRepository
 {
-    public ?string $nomRecu      = null;
-    public ?string $emailRecu    = null;
+    public ?string $nomRecu = null;
+
+    public ?string $emailRecu = null;
+
     public ?string $passwordRecu = null;
-    public ?int    $roleIdRecu   = null;
+
+    public ?int $roleIdRecu = null;
 
     public function creer(string $nom, string $email, string $password, int $roleId): User
     {
-        $this->nomRecu      = $nom;
-        $this->emailRecu    = $email;
+        $this->nomRecu = $nom;
+        $this->emailRecu = $email;
         $this->passwordRecu = $password;
-        $this->roleIdRecu   = $roleId;
+        $this->roleIdRecu = $roleId;
 
         return new User(['name' => $nom, 'email' => $email]);
     }
 
-    public function findById(int $id): User { return new User; }
+    public function findById(int $id): User
+    {
+        return new User;
+    }
 
-    public function modifier(int $id, string $nom, string $email, int $roleId): User { return new User; }
+    public function modifier(int $id, string $nom, string $email, int $roleId): User
+    {
+        return new User;
+    }
 
     public function supprimer(int $id): void {}
 }
@@ -48,7 +57,7 @@ final class CreerUtilisateurSpy implements UtilisateurRepository
 
 it('délègue la création au repository', function (): void {
     // L'action ne doit pas toucher Eloquent — elle passe par le contrat.
-    $spy    = new CreerUtilisateurSpy;
+    $spy = new CreerUtilisateurSpy;
     $action = new CreerUtilisateur($spy);
 
     $action('Dr Koné', 'kone@hopital.ml', 'secret123', 2);
@@ -60,7 +69,7 @@ it('délègue la création au repository', function (): void {
 });
 
 it('retourne l\'utilisateur créé par le repository', function (): void {
-    $spy    = new CreerUtilisateurSpy;
+    $spy = new CreerUtilisateurSpy;
     $action = new CreerUtilisateur($spy);
 
     $user = $action('Aminata', 'aminata@hopital.ml', 'motdepasse', 1);

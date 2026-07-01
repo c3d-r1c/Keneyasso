@@ -70,14 +70,14 @@ it('un invité ne peut pas mettre à jour un utilisateur', function (): void {
 });
 
 it('un admin peut modifier le nom et l\'email d\'un utilisateur', function (): void {
-    $role  = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
+    $role = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
     $cible = User::factory()->create(['name' => 'Ancien Nom', 'email' => 'ancien@hopital.ml']);
     $cible->assignRole($role);
 
     $this->actingAs(utilisateurConnecte())
         ->put(route('auth.users.update', $cible), [
-            'nom'     => 'Nouveau Nom',
-            'email'   => 'nouveau@hopital.ml',
+            'nom' => 'Nouveau Nom',
+            'email' => 'nouveau@hopital.ml',
             'role_id' => $role->id,
         ])
         ->assertRedirect(route('auth.users.index'));
@@ -87,30 +87,30 @@ it('un admin peut modifier le nom et l\'email d\'un utilisateur', function (): v
 });
 
 it('l\'email doit être unique sauf pour l\'utilisateur lui-même', function (): void {
-    $role  = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
+    $role = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
     $cible = User::factory()->create(['email' => 'moi@hopital.ml']);
     $cible->assignRole($role);
 
     // Modifier avec son propre email ne doit pas échouer
     $this->actingAs(utilisateurConnecte())
         ->put(route('auth.users.update', $cible), [
-            'nom'     => $cible->name,
-            'email'   => 'moi@hopital.ml',
+            'nom' => $cible->name,
+            'email' => 'moi@hopital.ml',
             'role_id' => $role->id,
         ])
         ->assertRedirect(route('auth.users.index'));
 });
 
 it('l\'email ne peut pas être celui d\'un autre utilisateur', function (): void {
-    $role  = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
+    $role = Role::firstOrCreate(['name' => 'médecin', 'guard_name' => 'web']);
     User::factory()->create(['email' => 'pris@hopital.ml']);
     $cible = User::factory()->create();
     $cible->assignRole($role);
 
     $this->actingAs(utilisateurConnecte())
         ->put(route('auth.users.update', $cible), [
-            'nom'     => $cible->name,
-            'email'   => 'pris@hopital.ml',
+            'nom' => $cible->name,
+            'email' => 'pris@hopital.ml',
             'role_id' => $role->id,
         ])
         ->assertSessionHasErrors('email');

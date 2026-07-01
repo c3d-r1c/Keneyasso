@@ -82,7 +82,7 @@ it('la route doclinic.docteurs.store pointe vers DocteurController@store', funct
 
 it('PatientsServiceProvider peut enregistrer ses bindings dans un container vide', function (): void {
     // Container léger : ne bootstrap pas l'app, teste uniquement register().
-    $container = new Container();
+    $container = new Container;
     $provider = new PatientsServiceProvider($container);
     $provider->register();
 
@@ -90,7 +90,7 @@ it('PatientsServiceProvider peut enregistrer ses bindings dans un container vide
 });
 
 it('DocteursServiceProvider peut enregistrer ses bindings dans un container vide', function (): void {
-    $container = new Container();
+    $container = new Container;
     $provider = new DocteursServiceProvider($container);
     $provider->register();
 
@@ -99,7 +99,7 @@ it('DocteursServiceProvider peut enregistrer ses bindings dans un container vide
 
 it('PatientsServiceProvider ne binding pas DocteurRepository', function (): void {
     // Un ServiceProvider ne doit pas empiéter sur le territoire d'un autre module.
-    $container = new Container();
+    $container = new Container;
     $provider = new PatientsServiceProvider($container);
     $provider->register();
 
@@ -107,7 +107,7 @@ it('PatientsServiceProvider ne binding pas DocteurRepository', function (): void
 });
 
 it('DocteursServiceProvider ne binding pas PatientRepository', function (): void {
-    $container = new Container();
+    $container = new Container;
     $provider = new DocteursServiceProvider($container);
     $provider->register();
 

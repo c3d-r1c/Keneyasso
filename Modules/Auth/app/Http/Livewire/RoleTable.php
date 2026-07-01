@@ -81,11 +81,11 @@ final class RoleTable extends Component
 
     public function openEdit(int $id): void
     {
-        $role                    = Role::findById($id);
-        $this->editingRoleId     = $id;
-        $this->name              = $role->name;
+        $role = Role::findById($id);
+        $this->editingRoleId = $id;
+        $this->name = $role->name;
         $this->selectedPermissions = $role->permissions->pluck('id')->map(fn ($v) => (int) $v)->toArray();
-        $this->showModal         = true;
+        $this->showModal = true;
     }
 
     public function closeModal(): void
@@ -103,8 +103,8 @@ final class RoleTable extends Component
         }
 
         return [
-            'name'                 => ['required', 'string', 'max:255', $uniqueRule],
-            'selectedPermissions'  => ['array'],
+            'name' => ['required', 'string', 'max:255', $uniqueRule],
+            'selectedPermissions' => ['array'],
             'selectedPermissions.*' => ['integer', 'exists:permissions,id'],
         ];
     }

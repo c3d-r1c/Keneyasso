@@ -46,7 +46,7 @@ final class UserController extends Controller
     public function edit(User $user): View
     {
         return view('auth::users.edit', [
-            'user'  => $user,
+            'user' => $user,
             'roles' => Role::orderBy('name')->get(),
         ]);
     }

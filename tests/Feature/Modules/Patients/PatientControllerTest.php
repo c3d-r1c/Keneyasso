@@ -17,9 +17,8 @@ uses(RefreshDatabase::class);
  * Fixture : un admin est connecté pour chaque test — le Gate::before()
  * du module Auth lui accorde toutes les permissions sans assignation explicite.
  */
-
 beforeEach(function (): void {
-    $role        = Role::create(['name' => 'admin', 'guard_name' => 'web']);
+    $role = Role::create(['name' => 'admin', 'guard_name' => 'web']);
     $this->admin = User::factory()->create();
     $this->admin->assignRole($role);
     $this->actingAs($this->admin);
@@ -30,21 +29,21 @@ beforeEach(function (): void {
 it('POST /patients inscrit un patient et redirige', function (): void {
     // La règle métier clé : un POST valide crée un patient en base.
     $response = $this->post('/patients', [
-        'prenom'            => 'Moussa',
-        'nom_de_famille'    => 'Traoré',
+        'prenom' => 'Moussa',
+        'nom_de_famille' => 'Traoré',
         'date_de_naissance' => '1990-05-15',
     ]);
 
     $response->assertRedirect();
     $this->assertDatabaseHas('patients', [
-        'prenom'         => 'Moussa',
+        'prenom' => 'Moussa',
         'nom_de_famille' => 'TRAORÉ',
     ]);
 });
 
 it('POST /patients rejette une requête sans prénom', function (): void {
     $response = $this->post('/patients', [
-        'nom_de_famille'    => 'Traoré',
+        'nom_de_famille' => 'Traoré',
         'date_de_naissance' => '1990-05-15',
     ]);
 
@@ -53,8 +52,8 @@ it('POST /patients rejette une requête sans prénom', function (): void {
 
 it('POST /patients rejette une date de naissance invalide', function (): void {
     $response = $this->post('/patients', [
-        'prenom'            => 'Moussa',
-        'nom_de_famille'    => 'Traoré',
+        'prenom' => 'Moussa',
+        'nom_de_famille' => 'Traoré',
         'date_de_naissance' => 'pas-une-date',
     ]);
 

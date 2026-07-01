@@ -47,7 +47,7 @@ it('des identifiants invalides redirigent avec une erreur', function (): void {
         'email' => 'test@test.com',
         'password' => 'mauvais',
     ])->assertRedirect()
-      ->assertSessionHasErrors('email');
+        ->assertSessionHasErrors('email');
 
     $this->assertGuest();
 });

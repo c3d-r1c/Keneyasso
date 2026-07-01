@@ -52,7 +52,7 @@ it('un utilisateur sans permission ne peut pas inscrire un patient', function ()
 });
 
 it('un admin peut inscrire un patient sans permission explicite', function (): void {
-    $role  = Role::create(['name' => 'admin', 'guard_name' => 'web']);
+    $role = Role::create(['name' => 'admin', 'guard_name' => 'web']);
     $admin = User::factory()->create();
     $admin->assignRole($role);
 

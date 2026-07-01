@@ -20,10 +20,10 @@ final class CreerUtilisateurRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom'      => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email'],
+            'nom' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'role_id'  => ['required', 'integer', 'exists:roles,id'],
+            'role_id' => ['required', 'integer', 'exists:roles,id'],
         ];
     }
 
